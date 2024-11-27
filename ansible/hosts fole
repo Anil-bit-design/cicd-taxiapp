@@ -1,5 +1,5 @@
 [jenkins-master]
-10.1.1.35
+10.1.1.252
 
 [jenkins-master:vars]
 ansible_user=ubuntu
