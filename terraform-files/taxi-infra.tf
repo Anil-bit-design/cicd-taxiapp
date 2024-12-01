@@ -2,7 +2,7 @@
   region = "ap-south-1"
 }
 
- resource "aws_instance" "taxi-server" {
+   resource "aws_instance" "taxi-server" {
     ami = "ami-09b0a86a2c84101e1"
     instance_type = "t2.medium"
      key_name = "taxi"
@@ -116,3 +116,14 @@
   subnet_id = aws_subnet.dpp-public-subnet-02.id 
   route_table_id = aws_route_table.dpp-public-rt.id   
 }
+    module "sgs" {
+    source = "../sg_eks"
+    vpc_id     =     aws_vpc.dpp-vpc.id
+  }
+
+      module "eks" {
+      source = "../eks"
+       vpc_id     =     aws_vpc.dpp-vpc.id
+       subnet_ids = [aws_subnet.dpp-public-subnet-01.id,aws_subnet.dpp-public-subnet-02.id]
+      sg_ids = module.sgs.security_group_public
+  }
